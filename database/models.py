@@ -23,7 +23,7 @@ class Questions(Base):
     v2 = Column(String)
     v3 = Column(String)
     v4 = Column(String)
-    correct_answer = Column(Integer, nullable=False)
+    correct_answer = Column(String, nullable=False)
     timer = Column(Date)
 
 

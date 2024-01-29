@@ -19,7 +19,7 @@ def register_user_db(username, phone_number, level):
 
 
 # Ответы пользователя
-def user_answer_db(q_id, user_id, level, user_answer):
+def user_answer_db(user_id, q_id, level, user_answer):
     db = next(get_db())
     exact_question = db.query(Questions).filter_by(id=q_id).first()  # 3
     if exact_question:
@@ -32,7 +32,10 @@ def user_answer_db(q_id, user_id, level, user_answer):
                                  level=level, correctness=correctness)
         db.add(new_answer)
         db.commit()
-        return True if correctness else False
+        if correctness == True:
+            return True
+        else:
+            return False
     else:
         return 'Вопрос не найден(('
 
@@ -54,7 +57,7 @@ def plus_point_user_db(user_id, correct_answers):
         # Получаем позицию в списке .desc() просто по убыванию 10,9,8....
         all_leaders = db.query(Result.user_id).order_by(Result.correct_answers.desc())
 
-        return all_leaders.index((user_id,)) + 1
+        return all_leaders.index((user_id))
 
 
 def get_all_users_db():

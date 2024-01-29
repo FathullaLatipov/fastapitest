@@ -1,4 +1,4 @@
-from .models import Result, Questions
+from .models import Result, Questions, UserAnswers
 from database import get_db
 
 
@@ -30,3 +30,17 @@ def get_20_questions_db():
     question = db.query(Questions).all()
 
     return question[:20]
+
+
+# Проверка ответа пользователя
+def check_user_answer_db(user_id, q_id, user_answer):
+    db = next(get_db())
+
+    current_question = db.query(UserAnswers).filter_by(user_id=user_id, q_id=q_id, user_answer=user_answer).first()
+
+    if current_question:
+        db.add(current_question)
+        db.commit()
+        return True
+    else:
+        return False
